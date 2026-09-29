@@ -226,6 +226,11 @@
   textarea{resize:vertical;min-height:110px;}
   .contact-form .btn-primary{align-self:flex-start;border:none;cursor:pointer;font-family:var(--sans);}
 
+  .form-status{font-size:0.95rem;line-height:1.4;min-height:1.4em;}
+.form-status.ok{color:#4C6B3A;}
+.form-status.err{color:#9A3B2E;}
+.contact-form .btn-primary:disabled{opacity:0.6;cursor:not-allowed;}
+
   /* ---------- Footer ---------- */
   footer{background:var(--bg-cream-panel);color:var(--ink-muted);padding:56px 0 calc(32px + env(safe-area-inset-bottom, 0px));border-top:1px solid var(--line-light);}
   .footer-top{display:flex; justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--line-dark);}

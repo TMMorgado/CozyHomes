@@ -53,8 +53,9 @@
     display:flex;align-items:center;justify-content:space-between;
     padding:18px 32px;max-width:1160px;margin:0 auto;
   }
-  .logo{display:flex;align-items:center;gap:10px;color:var(--ink);font-family:var(--serif);font-size:1.25rem;font-weight:700;}
-  .logo svg{width:26px;height:26px;flex-shrink:0;}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo{width:90px;height:90px;}
+  .logoFooter{width:150px;height:90px;}
   .nav-links{display:flex;gap:34px;}
   .nav-links a{color:var(--ink-muted);font-size:0.95rem;font-weight:500;transition:color .15s ease;}
   .nav-links a:hover{color:var(--ink);}
@@ -227,7 +228,7 @@
 
   /* ---------- Footer ---------- */
   footer{background:var(--bg-cream-panel);color:var(--ink-muted);padding:56px 0 calc(32px + env(safe-area-inset-bottom, 0px));border-top:1px solid var(--line-light);}
-  .footer-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--line-dark);}
+  .footer-top{display:flex; justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--line-dark);}
   .footer-top .logo{margin-bottom:14px;}
   .footer-top p{max-width:34ch;font-size:0.95rem;}
   .footer-links{display:flex;gap:56px;flex-wrap:wrap;}

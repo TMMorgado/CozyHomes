@@ -44,3 +44,10 @@ form.addEventListener('submit', async function(e){
     btn.textContent = 'Enviar pedido';
   }
 });
+
+document.querySelectorAll('.project-tile.ba').forEach(function (tile) {
+  var range = tile.querySelector('.ba-range');
+  range.addEventListener('input', function () {
+    tile.style.setProperty('--pos', range.value + '%');
+  });
+});

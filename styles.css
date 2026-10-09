@@ -286,3 +286,136 @@
   .whatsapp-btn{right:16px;bottom:calc(16px + env(safe-area-inset-bottom, 0px));width:52px;height:52px;}
   .whatsapp-btn svg{width:30px;height:30px;}
 }
+
+
+/* Card com antes/depois */
+.project-tile.ba {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 300 / 230;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.project-tile.ba img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* A foto "antes" fica por cima e é cortada até à posição do seletor */
+.project-tile.ba .ba-before {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+/* Linha e botão do seletor */
+.ba-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  background: #fff;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+}
+.ba-line span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.ba-line span::before,
+.ba-line span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border: solid #2B2820;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+}
+.ba-line span::before { left: 8px;  transform: translateY(-50%) rotate(135deg); }
+.ba-line span::after  { right: 8px; transform: translateY(-50%) rotate(-45deg); }
+
+/* Input invisível que cobre o card todo e recebe o arrastar */
+.ba-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 4;
+  touch-action: pan-y; /* permite continuar a fazer scroll vertical no telemóvel */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Etiquetas Antes / Depois */
+.ba-tag {
+  position: absolute;
+  top: 10px;
+  z-index: 3;
+  padding: 3px 9px;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(0,0,0,.55);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.ba-tag-before { left: 10px; }
+.ba-tag-after  { right: 10px; }
+
+/* Legenda do card por cima de tudo, sem bloquear o arrastar */
+.project-tile.ba .tile-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 28px 14px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
+  pointer-events: none;
+}
+
+/* Foco por teclado visível */
+.ba-range:focus-visible ~ .ba-line span {
+  outline: 2px solid #A79374;
+  outline-offset: 3px;
+}
+
+.project-tile:not(.ba) {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 300 / 230;
+}
+
+.project-tile:not(.ba) img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-tile:not(.ba) .tile-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 28px 14px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.75), transparent);
+}

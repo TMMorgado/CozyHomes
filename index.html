@@ -1,212 +1,303 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
+<!--
+  ============================================================================
+  Cozy Homes — index.html
+  ----------------------------------------------------------------------------
+  HOW THE LANGUAGE SWITCH (PT / EN) WORKS
+  - The Portuguese text is written directly in this file (it is the default
+    language and what search engines see).
+  - The English text lives in script.js, inside `translations.en`.
+  - To make a piece of text translatable, add a data-i18n="some.key" attribute
+    to its element, then add the same key to `translations.en` in script.js.
+
+  Available attributes:
+    data-i18n              -> replaces the element's text
+    data-i18n-html         -> replaces the element's HTML (use when it has <em>, <strong>...)
+    data-i18n-placeholder  -> replaces the placeholder of an input/textarea
+    data-i18n-aria         -> replaces the aria-label
+    data-i18n-alt          -> replaces the alt text of an image
+  ============================================================================
+-->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- Page title and description (also translated by script.js) -->
 <title>Cozy Homes — Remodelação e Construção</title>
 <meta name="description" content="Cozy Homes — remodelação e construção de interiores e exteriores no Porto e arredores. Projeto em rendering e AutoCAD, execução e entrega chave na mão.">
+
+<!-- Fonts: Zilla Slab (headings) + Work Sans (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Main stylesheet -->
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+
+<!-- ==========================================================================
+     HEADER / NAVIGATION
+     ========================================================================== -->
 <header>
   <nav class="nav">
+
+    <!-- Logo -->
     <a href="#top" class="logo">
-      <img src="assets/images/cozy-homes-logo.png" alt="">
+      <img src="assets/images/cozy-homes-logo.png" alt="Cozy Homes">
     </a>
-    <ul class="nav-links">
-      <li><a href="#servicos">Serviços</a></li>
-      <li><a href="#processo">Como trabalhamos</a></li>
-      <li><a href="#projetos">Projetos</a></li>
-      <li><a href="#depoimentos">Depoimentos</a></li>
-      <li><a href="#contacto">Contacto</a></li>
+
+    <!-- Main menu (becomes a dropdown on tablet/mobile, toggled by script.js) -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#servicos" data-i18n="nav.services">Serviços</a></li>
+      <li><a href="#processo" data-i18n="nav.process">Como trabalhamos</a></li>
+      <li><a href="#projetos" data-i18n="nav.projects">Projetos</a></li>
+      <li><a href="#contacto" data-i18n="nav.contact">Contacto</a></li>
     </ul>
-    <a href="#contacto" class="nav-cta">Pedir orçamento</a>
-    <button class="nav-toggle" aria-label="Abrir menu" id="navToggle">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
+
+    <!-- Right-hand group: quote button, language switch, hamburger -->
+    <div class="nav-actions">
+      <a href="#contacto" class="nav-cta" data-i18n="nav.cta">Pedir orçamento</a>
+
+      <!-- Language switch: shows the language you will switch TO -->
+      <button type="button" class="lang-switch" id="langToggle"
+              data-i18n-aria="lang.switch" aria-label="Mudar idioma para inglês">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span data-i18n="lang.button">EN</span>
+      </button>
+
+      <!-- Hamburger button (only visible on tablet/mobile) -->
+      <button class="nav-toggle" id="navToggle" data-i18n-aria="nav.openMenu" aria-label="Abrir menu" aria-expanded="false" aria-controls="navLinks">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
   </nav>
 </header>
 
+
+<!-- ==========================================================================
+     HERO (video background + headline + stats bar)
+     ========================================================================== -->
 <section class="hero" id="top">
+
+  <!-- Background video with dark overlay -->
   <div class="hero-video-bg" aria-hidden="true">
     <video class="hero-video" autoplay loop muted playsinline poster="assets/images/hero-poster.jpg">
       <source src="assets/images/hero-video.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
   </div>
+
+  <!-- Headline and call-to-action buttons -->
   <div class="wrap hero-inner">
     <div>
-      <p class="hero-eyebrow">Interiores · Exteriores · Projeto chave na mão</p>
-      <h1>A sua casa de sonho, <em>na casa que sempre viveu.</em></h1>
-      <p class="lede">Acompanhamos todo o processo, desde as suas ideias até à entrega — com projeto em rendering e AutoCAD (opcional), sugestão e escolha de materiais, execução e acabamento final.</p>
+      <p class="hero-eyebrow" data-i18n="hero.eyebrow">Interiores · Exteriores · Projeto chave na mão</p>
+      <h1 data-i18n-html="hero.title">A sua casa de sonho, <em>na casa que sempre viveu.</em></h1>
+      <p class="lede" data-i18n="hero.lede">Acompanhamos todo o processo, desde as suas ideias até à entrega — com projeto em rendering e AutoCAD (opcional), sugestão e escolha de materiais, execução e acabamento final.</p>
       <div class="hero-actions">
-        <a href="#contacto" class="btn-primary">Pedir orçamento gratuito</a>
-        <a href="#projetos" class="btn-ghost">Ver projetos</a>
+        <a href="#contacto" class="btn-primary" data-i18n="hero.ctaPrimary">Pedir orçamento gratuito</a>
+        <a href="#projetos" class="btn-ghost" data-i18n="hero.ctaSecondary">Ver projetos</a>
       </div>
     </div>
   </div>
 
+  <!-- Stats bar -->
   <div class="stats">
     <div class="wrap stats-inner">
-      <div class="stat"><div class="num">+5</div><div class="label">Anos de experiência</div></div>
-      <div class="stat"><div class="num">100+</div><div class="label">Projetos concluídos</div></div>
-      <div class="stat"><div class="num">30</div><div class="label">Profissionais na equipa</div></div>
-      <div class="stat"><div class="num">100%</div><div class="label">Clientes satisfeitos</div></div>
+      <div class="stat"><div class="num">+5</div><div class="label" data-i18n="stats.years">Anos de experiência</div></div>
+      <div class="stat"><div class="num">+100</div><div class="label" data-i18n="stats.projects">Projetos concluídos</div></div>
+      <div class="stat"><div class="num">+15</div><div class="label" data-i18n="stats.team">Profissionais na equipa</div></div>
+      <div class="stat"><div class="num">100%</div><div class="label" data-i18n="stats.clients">Clientes satisfeitos</div></div>
     </div>
   </div>
 </section>
 
+
+<!-- ==========================================================================
+     SERVICES
+     ========================================================================== -->
 <section id="servicos">
   <div class="wrap">
+
+    <!-- Section heading -->
     <div class="section-head">
       <div>
-        <p class="section-tag">O que fazemos</p>
-        <h2>Reabilitação de interiores e exteriores</h2>
+        <p class="section-tag" data-i18n="services.tag">O que fazemos</p>
+        <h2 data-i18n="services.title">Reabilitações</h2>
       </div>
-      <p>Da ideia inicial à entrega chave na mão — projeto, materiais e execução tratados por nós, do início ao fim.</p>
+      <p data-i18n="services.intro">Da ideia inicial à entrega chave na mão — projeto, materiais e execução tratados por nós, do início ao fim.</p>
     </div>
 
+    <!-- Services list -->
     <div class="services-list">
+
+      <!-- Interiors -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><path d="M8 36V18L22 8L36 18V36" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="24" width="10" height="12" stroke="currentColor" stroke-width="1.6"/></svg>
-        <h3>Interiores</h3>
-        <p>Cozinhas, casas de banho, pladur, pintura, pavimentos e carpintaria — redesenhados de raiz ou renovados a preceito.</p>
+        <h3 data-i18n="services.interiors.title">Interiores</h3>
+        <p data-i18n="services.interiors.text">Cozinhas, casas de banho, pladur, pintura, pavimentos e carpintaria — redesenhados de raiz ou renovados a preceito.</p>
       </div>
+
+      <!-- Exteriors -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><path d="M6 20L22 8L38 20" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 20V34H34V20" stroke="currentColor" stroke-width="1.6"/></svg>
-        <h3>Exteriores</h3>
-        <p>Fachadas, capoto, telhados, impermeabilização, jardins e piscinas — para a casa ficar bem por fora tal como por dentro.</p>
+        <h3 data-i18n="services.exteriors.title">Exteriores</h3>
+        <p data-i18n="services.exteriors.text">Fachadas, capoto, telhados, impermeabilização, jardins e piscinas — para a casa ficar bem por fora tal como por dentro.</p>
       </div>
+
+      <!-- Electrical & plumbing -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><path d="M8 22H36" stroke="currentColor" stroke-width="1.6"/><path d="M14 22V32C14 34 16 36 18 36H26C28 36 30 34 30 32V22" stroke="currentColor" stroke-width="1.6"/><path d="M18 22V14C18 10 22 8 22 8C22 8 26 10 26 14V22" stroke="currentColor" stroke-width="1.6"/></svg>
-        <h3>Eletricidade & canalização</h3>
-        <p>Instalações e remodelações de águas, esgotos e quadros elétricos, integradas no plano geral da obra.</p>
+        <h3 data-i18n="services.utilities.title">Eletricidade &amp; canalização</h3>
+        <p data-i18n="services.utilities.text">Instalações e remodelações de águas, esgotos e quadros elétricos, integradas no plano geral da obra.</p>
       </div>
+
+      <!-- Special spaces -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><path d="M22 6C22 6 10 18 10 27C10 33.6 15.4 38 22 38C28.6 38 34 33.6 34 27C34 18 22 6 22 6Z" stroke="currentColor" stroke-width="1.6"/><path d="M16 27C16 30.3 18.7 33 22 33" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Espaços especiais</h3>
-        <p>Salas de cinema, spas, salas de jogos, estúdios insonorizados e estruturas envidraçadas — projetos à medida de quem gosta de coisas fora do comum.</p>
+        <h3 data-i18n="services.special.title">Espaços especiais</h3>
+        <p data-i18n="services.special.text">Salas de cinema, spas, salas de jogos, estúdios insonorizados e estruturas envidraçadas — projetos à medida de quem gosta de coisas fora do comum.</p>
       </div>
+
+      <!-- Design -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><rect x="8" y="8" width="28" height="28" stroke="currentColor" stroke-width="1.6"/><path d="M8 16H36M16 8V36" stroke="currentColor" stroke-width="1"/></svg>
-        <h3>Projeto & design</h3>
-        <p>Rendering 3D e AutoCAD (opcional), sugestões e escolha de materiais, para decidir tudo antes de a obra começar.</p>
+        <h3 data-i18n="services.design.title">Projeto &amp; design</h3>
+        <p data-i18n="services.design.text">Rendering 3D e AutoCAD (opcional), sugestões e escolha de materiais, para decidir tudo antes de a obra começar.</p>
       </div>
+
+      <!-- Commercial spaces -->
       <div class="service-row">
         <svg class="icon" viewBox="0 0 44 44" fill="none"><path d="M6 36H38" stroke="currentColor" stroke-width="1.6"/><path d="M10 36V16L22 8L34 16V36" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="24" width="10" height="12" stroke="currentColor" stroke-width="1.6"/></svg>
-        <h3>Espaços comerciais</h3>
-        <p>Reabilitação de lojas, escritórios e outros espaços de negócio, entregues chave na mão.</p>
+        <h3 data-i18n="services.commercial.title">Espaços comerciais</h3>
+        <p data-i18n="services.commercial.text">Reabilitação de lojas, escritórios e outros espaços de negócio, entregues chave na mão.</p>
       </div>
+
     </div>
   </div>
 </section>
 
+
+<!-- ==========================================================================
+     PROCESS (4 steps)
+     ========================================================================== -->
 <section class="process" id="processo">
   <div class="wrap">
+
+    <!-- Section heading -->
     <div class="section-head">
       <div>
-        <p class="section-tag">Como trabalhamos</p>
-        <h2>Quatro fases, sem surpresas</h2>
+        <p class="section-tag" data-i18n="process.tag">Como trabalhamos</p>
+        <h2 data-i18n="process.title">Quatro fases, sem surpresas</h2>
       </div>
-      <p>O mesmo processo em todos os projetos, para que saiba sempre em que ponto está a sua obra.</p>
+      <p data-i18n="process.intro">O mesmo processo em todos os projetos, para que saiba sempre em que ponto está a sua obra.</p>
     </div>
+
+    <!-- Steps -->
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <h3>Consulta e visita</h3>
-        <p>Vamos ao local, ouvimos o que precisa e avaliamos condições técnicas antes de qualquer proposta.</p>
+        <h3 data-i18n="process.step1.title">Consulta e visita</h3>
+        <p data-i18n="process.step1.text">Vamos ao local, ouvimos o que precisa e avaliamos condições técnicas antes de qualquer proposta.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Projeto e orçamento</h3>
-        <p>Apresentamos soluções em rendering 3D e, opcionalmente, AutoCAD, com um orçamento detalhado antes de começar.</p>
+        <h3 data-i18n="process.step2.title">Projeto e orçamento</h3>
+        <p data-i18n="process.step2.text">Apresentamos soluções em rendering 3D e, opcionalmente, AutoCAD, com um orçamento detalhado antes de começar.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Execução da obra</h3>
-        <p>Equipa própria em obra, com relatórios semanais de progresso e ponto de contacto único.</p>
+        <h3 data-i18n="process.step3.title">Execução da obra</h3>
+        <p data-i18n="process.step3.text">Equipa própria em obra, com relatórios semanais de progresso e ponto de contacto único.</p>
       </div>
       <div class="step">
         <div class="step-num">04</div>
-        <h3>Entrega e garantia</h3>
-        <p>Vistoria final consigo e garantia sobre mão de obra e materiais aplicados.</p>
+        <h3 data-i18n="process.step4.title">Entrega e garantia</h3>
+        <p data-i18n="process.step4.text">Vistoria final consigo e garantia sobre mão de obra e materiais aplicados.</p>
       </div>
     </div>
+
   </div>
 </section>
 
+
+<!-- ==========================================================================
+     PROJECTS (photo cards)
+     - Cards with class "ba" have a before/after slider (logic in script.js)
+     - Normal cards show a single photo
+     ========================================================================== -->
 <section id="projetos">
   <div class="wrap">
+
+    <!-- Section heading -->
     <div class="section-head">
       <div>
-        <p class="section-tag">Trabalhos recentes</p>
-        <h2>Alguns dos nossos projetos</h2>
+        <p class="section-tag" data-i18n="projects.tag">Trabalhos recentes</p>
+        <h2 data-i18n="projects.title">Alguns dos nossos projetos</h2>
       </div>
     </div>
 
     <div class="projects-grid">
 
-      <!-- CARD 1 -->
+      <!-- CARD 1 (before/after slider) -->
       <div class="project-tile ba" style="--pos:50%">
-        <img class="ba-after" src="assets/images/cardsImage/depois1.jpeg" alt="Cozinha depois da remodelação" loading="lazy">
-        <img class="ba-before" src="assets/images/cardsImage/antes1.jpeg" alt="Cozinha antes da remodelação" loading="lazy">
-        <span class="ba-tag ba-tag-before">Antes</span>
-        <span class="ba-tag ba-tag-after">Depois</span>
+        <img class="ba-after" src="assets/images/cardsImage/depois1.jpeg" alt="Cozinha depois da remodelação" data-i18n-alt="tile1.altAfter" loading="lazy">
+        <img class="ba-before" src="assets/images/cardsImage/antes1.jpeg" alt="Cozinha antes da remodelação" data-i18n-alt="tile1.altBefore" loading="lazy">
+        <span class="ba-tag ba-tag-before" data-i18n="tile.before">Antes</span>
+        <span class="ba-tag ba-tag-after" data-i18n="tile.after">Depois</span>
         <div class="ba-line"><span></span></div>
-        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois: Cozinha, Matosinhos">
-        <div class="tile-label"><div class="cat">Remodelação</div><div class="name">Divisão, Gaia</div></div>
+        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois: Cozinha, Matosinhos" data-i18n-aria="tile1.slider">
+        <div class="tile-label">
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile1.name">Divisão, Gaia</div>
+        </div>
       </div>
 
       <!-- CARD 2 -->
-      <div class="project-tile ba" style="--pos:50%">
-        <img class="ba-after" src="imagens/moradia-depois.jpg" alt="Moradia depois" loading="lazy">
-        <img class="ba-before" src="imagens/moradia-antes.jpg" alt="Moradia antes" loading="lazy">
-        <span class="ba-tag ba-tag-before">Antes</span>
-        <span class="ba-tag ba-tag-after">Depois</span>
-        <div class="ba-line"><span></span></div>
-        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois: Moradia, Vila do Conde">
-        <div class="tile-label"><div class="cat">Construção nova</div><div class="name">Moradia, Vila do Conde</div></div>
+      <div class="project-tile">
+        <img src="assets/images/cardsImage/armario1.jpeg" alt="Armário remodelado" data-i18n-alt="tile2.alt" loading="lazy">
+        <div class="tile-label">
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile2.name">Escritório, Gondomar</div>
+        </div>
       </div>
 
       <!-- CARD 3 -->
-      <div class="project-tile ba" style="--pos:50%">
-        <img class="ba-after" src="imagens/wc-depois.jpg" alt="Casa de banho depois" loading="lazy">
-        <img class="ba-before" src="imagens/wc-antes.jpg" alt="Casa de banho antes" loading="lazy">
-        <span class="ba-tag ba-tag-before">Antes</span>
-        <span class="ba-tag ba-tag-after">Depois</span>
-        <div class="ba-line"><span></span></div>
-        <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois: Casa de banho, Maia">
-        <div class="tile-label"><div class="cat">Casa de banho</div><div class="name">Remodelação, Maia</div></div>
+      <div class="project-tile">
+        <img src="assets/images/cardsImage/cozinha1.jpeg" alt="Cozinha remodelada" data-i18n-alt="tile3.alt" loading="lazy">
+        <div class="tile-label">
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile3.name">Cozinha, Gondomar</div>
+        </div>
       </div>
 
-     <!-- CARD 4 -->
-<div class="project-tile">
-  <img src="assets/images/cardsImage/casabanho1.jpeg" alt="Sótão depois da ampliação" loading="lazy">
-  <div class="tile-label">
-    <div class="cat">Remodelação</div>
-    <div class="name">Casa de Banho, Gondomar</div>
-  </div>
-</div>
+      <!-- CARD 4 -->
+      <div class="project-tile">
+        <img src="assets/images/cardsImage/casabanho1.jpeg" alt="Casa de banho remodelada" data-i18n-alt="tile4.alt" loading="lazy">
+        <div class="tile-label">
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile4.name">Casa de Banho, Gondomar</div>
+        </div>
+      </div>
 
       <!-- CARD 5 -->
       <div class="project-tile">
-        <img src="assets/images/cardsImage/casabanho2.jpeg" alt="Descrição da foto" loading="lazy">
+        <img src="assets/images/cardsImage/casabanho2.jpeg" alt="Casa de banho remodelada" data-i18n-alt="tile5.alt" loading="lazy">
         <div class="tile-label">
-          <div class="cat">Remodelação</div>
-          <div class="name">Casa de Banho, Gaia</div>
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile5.name">Casa de Banho, Gaia</div>
         </div>
       </div>
 
       <!-- CARD 6 -->
       <div class="project-tile">
-        <img src="assets/images/cardsImage/corredor1.jpeg" alt="Descrição da foto" loading="lazy">
+        <img src="assets/images/cardsImage/corredor1.jpeg" alt="Corredor remodelado" data-i18n-alt="tile6.alt" loading="lazy">
         <div class="tile-label">
-          <div class="cat">Remodelação</div>
-          <div class="name">Corredor, Porto</div>
+          <div class="cat" data-i18n="tile.renovation">Remodelação</div>
+          <div class="name" data-i18n="tile6.name">Corredor, Porto</div>
         </div>
       </div>
 
@@ -214,122 +305,183 @@
   </div>
 </section>
 
-<section class="testimonials" id="depoimentos">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <p class="section-tag">Clientes</p>
-        <h2>Quem já construiu connosco</h2>
-      </div>
-    </div>
-    <div class="quote-row">
-      <div class="quote">
-        <p class="text">"Cumpriram o prazo que prometeram, o que nunca tinha acontecido nas outras obras que já tive em casa."</p>
-        <div class="who"><strong>Sandra M.</strong> — Remodelação de cozinha, Matosinhos</div>
-      </div>
-      <div class="quote">
-        <p class="text">"Comunicação constante durante toda a obra. Sabíamos sempre o que se estava a passar e porquê."</p>
-        <div class="who"><strong>Rui P.</strong> — Ampliação de sótão, Gondomar</div>
-      </div>
-    </div>
-  </div>
-</section>
 
+<!-- ==========================================================================
+     CALL-TO-ACTION BANNER
+     ========================================================================== -->
 <div class="cta-banner">
   <div class="wrap cta-inner">
-    <h2>Tem um projeto em mente? Vamos falar sobre ele.</h2>
-    <a href="#contacto" class="btn-primary">Pedir orçamento gratuito</a>
+    <h2 data-i18n="cta.title">Tem um projeto em mente? Vamos falar sobre ele.</h2>
+    <a href="#contacto" class="btn-primary" data-i18n="cta.button">Pedir orçamento gratuito</a>
   </div>
 </div>
 
+
+<!-- ==========================================================================
+     CONTACT (info on the left, form on the right)
+     ========================================================================== -->
 <section id="contacto">
   <div class="wrap contact-grid">
+
+    <!-- Contact info + social icons -->
     <div class="contact-info">
-      <p class="section-tag">Contacto</p>
-      <h2>Vamos começar o seu projeto</h2>
+      <p class="section-tag" data-i18n="contact.tag">Contacto</p>
+      <h2 data-i18n="contact.title">Vamos começar o seu projeto</h2>
+
       <dl>
-        <div><dt>Telefone</dt><dd><a href="tel:+351916647893">+351 916 647 893</a></dd></div>
-        <div><dt>Email</dt><dd><a href="mailto:cozy.homespt@gmail.com">cozy.homespt@gmail.com</a></dd></div>
-        <div><dt>Área de atuação</dt><dd>Porto e arredores</dd></div>
+        <div><dt data-i18n="contact.phone">Telefone</dt><dd><a href="tel:+351916647893">+351 916 647 893</a></dd></div>
+        <div><dt data-i18n="contact.email">Email</dt><dd><a href="mailto:cozy.homespt@gmail.com">cozy.homespt@gmail.com</a></dd></div>
+        <div><dt data-i18n="contact.area">Área de atuação</dt><dd data-i18n="contact.areaValue">Porto e arredores</dd></div>
       </dl>
-      <div class="socials" aria-label="Redes sociais">
+
+      <div class="socials" data-i18n-aria="contact.social" aria-label="Redes sociais">
+        <!-- Instagram -->
         <a href="https://www.instagram.com/cozyhomespt" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        <!-- Facebook -->
         <a href="https://www.facebook.com/share/1CEKgiKhoP/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v7h3v-7h2.2L17 12h-3v-1.6c0-.4.3-.7.7-.7H17V8h-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></a>
+        <!-- TikTok -->
+        <a href="https://www.tiktok.com/@cozy.homespt?_r=1&amp;_t=ZG-9APbuw4ffcG" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 4c.3 2.3 1.9 4 4.5 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
+
+    <!-- Contact form (sent to Formspree via script.js) -->
     <form class="contact-form" id="contactForm" action="https://formspree.io/f/xgavdyek" method="POST" novalidate>
+
+      <!-- Hidden fields: email subject, spam trap (honeypot) and chosen language -->
       <input type="hidden" name="_subject" value="Novo pedido de orçamento — Cozy Homes">
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
-    
+      <input type="hidden" name="idioma" id="langField" value="pt">
+
+      <!-- Name + phone -->
       <div class="form-row">
         <div>
-          <label for="nome">Nome</label>
-          <input id="nome" name="nome" type="text" placeholder="O seu nome" required>
+          <label for="nome" data-i18n="form.name">Nome</label>
+          <input id="nome" name="nome" type="text" placeholder="O seu nome" data-i18n-placeholder="form.namePlaceholder" required>
         </div>
         <div>
-          <label for="telefone">Telefone</label>
+          <label for="telefone" data-i18n="form.phone">Telefone</label>
           <input id="telefone" name="telefone" type="tel" placeholder="912 345 678">
         </div>
       </div>
+
+      <!-- Email -->
       <div>
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="oseuemail@exemplo.pt" required>
+        <label for="email" data-i18n="form.email">Email</label>
+        <input id="email" name="email" type="email" placeholder="oseuemail@exemplo.pt" data-i18n-placeholder="form.emailPlaceholder" required>
       </div>
+
+      <!-- Service type (values stay in Portuguese so you always receive the same wording) -->
       <div>
-        <label for="servico">Tipo de serviço</label>
+        <label for="servico" data-i18n="form.service">Tipo de serviço</label>
         <select id="servico" name="servico">
-          <option>Remodelação de interiores</option>
-          <option>Construção nova / ampliação</option>
-          <option>Acabamentos & pintura</option>
-          <option>Canalização & eletricidade</option>
-          <option>Telhados & impermeabilização</option>
-          <option>Outro</option>
+          <option value="Remodelação de interiores" data-i18n="form.opt1">Remodelação de interiores</option>
+          <option value="Construção nova / ampliação" data-i18n="form.opt2">Construção nova / ampliação</option>
+          <option value="Acabamentos &amp; pintura" data-i18n="form.opt3">Acabamentos &amp; pintura</option>
+          <option value="Canalização &amp; eletricidade" data-i18n="form.opt4">Canalização &amp; eletricidade</option>
+          <option value="Telhados &amp; impermeabilização" data-i18n="form.opt5">Telhados &amp; impermeabilização</option>
+          <option value="Outro" data-i18n="form.opt6">Outro</option>
         </select>
       </div>
+
+      <!-- Message -->
       <div>
-        <label for="mensagem">Mensagem</label>
-        <textarea id="mensagem" name="mensagem" placeholder="Conte-nos um pouco sobre o seu projeto..."></textarea>
+        <label for="mensagem" data-i18n="form.message">Mensagem</label>
+        <textarea id="mensagem" name="mensagem" placeholder="Conte-nos um pouco sobre o seu projeto..." data-i18n-placeholder="form.messagePlaceholder"></textarea>
       </div>
-      <button type="submit" class="btn-primary" id="formBtn">Enviar pedido</button>
+
+      <!-- Submit button + status message (success / error) -->
+      <button type="submit" class="btn-primary" id="formBtn" data-i18n="form.submit">Enviar pedido</button>
       <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
     </form>
+
   </div>
 </section>
 
+
+<!-- ==========================================================================
+     FOOTER (3 columns: about | navigation | contact)
+     ========================================================================== -->
 <footer>
   <div class="wrap footer-top">
-    <div>
-      <p>A sua casa de sonho a distância de um contacto. Reabilitação de interiores e exteriores no Porto e arredores, do projeto à entrega chave na mão.</p>
-    </div>
     <div class="footer-links">
+
+      <!-- Column 1: about -->
       <div>
-        <h4>Navegação</h4>
+        <h4>Cozy Homes</h4>
+        <p data-i18n="footer.about">A sua casa de sonho a distância de um contacto. Reabilitação de interiores e exteriores no Porto e arredores, do projeto à entrega chave na mão.</p>
+      </div>
+
+      <!-- Column 2: navigation -->
+      <div>
+        <h4 data-i18n="footer.navigation">Navegação</h4>
         <ul>
-          <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#processo">Como trabalhamos</a></li>
-          <li><a href="#projetos">Projetos</a></li>
-          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#servicos" data-i18n="nav.services">Serviços</a></li>
+          <li><a href="#processo" data-i18n="nav.process">Como trabalhamos</a></li>
+          <li><a href="#projetos" data-i18n="nav.projects">Projetos</a></li>
         </ul>
       </div>
+
+      <!-- Column 3: contact + social networks -->
       <div>
-        <h4>Contacto</h4>
+        <h4 data-i18n="footer.contact">Contacto</h4>
         <ul>
-          <li><a href="tel:+351916647893">+351 916 647 893</a></li>
-          <li><a href="mailto:cozy.homespt@gmail.com">cozy.homespt@gmail.com</a></li>
-          <li><a href="https://www.instagram.com/cozyhomespt" target="_blank" rel="noopener">Instagram</a></li>
+          <!-- Phone -->
+          <li>
+            <a href="tel:+351916647893" class="footer-social">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              +351 916 647 893
+            </a>
+          </li>
+          <!-- Email -->
+          <li>
+            <a href="mailto:cozy.homespt@gmail.com" class="footer-social">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              cozy.homespt@gmail.com
+            </a>
+          </li>
+          <!-- Instagram -->
+          <li>
+            <a href="https://www.instagram.com/cozyhomespt" target="_blank" rel="noopener" class="footer-social">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+              Instagram
+            </a>
+          </li>
+          <!-- TikTok -->
+          <li>
+            <a href="https://www.tiktok.com/@cozy.homespt?_r=1&amp;_t=ZG-9APbuw4ffcG" target="_blank" rel="noopener" class="footer-social">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 4c.3 2.3 1.9 4 4.5 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              TikTok
+            </a>
+          </li>
+          <!-- Facebook -->
+          <li>
+            <a href="https://www.facebook.com/share/1CEKgiKhoP/" target="_blank" rel="noopener" class="footer-social">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 8h-2a2 2 0 0 0-2 2v2H9v3h2v7h3v-7h2.2L17 12h-3v-1.6c0-.4.3-.7.7-.7H17V8h-2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              Facebook
+            </a>
+          </li>
         </ul>
       </div>
+
     </div>
   </div>
+
+  <!-- Copyright -->
   <div class="wrap footer-bottom">
-    <span>© 2026 Cozy Homes. Todos os direitos reservados.</span>
-  </div>
+    <span data-i18n="footer.rights">© 2026 Cozy Homes. Todos os direitos reservados.</span>
+    <a href="/admin/orcamento.html" class="admin-link" rel="nofollow">Admin</a>  </div>
 </footer>
 
-<a href="https://wa.me/351916647893" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Falar no WhatsApp">
-  <svg viewBox="0 0 32 32" fill="none"><path d="M16 4C9.4 4 4 9.4 4 16c0 2.2.6 4.3 1.7 6.1L4 28l6.1-1.6C11.8 27.4 13.9 28 16 28c6.6 0 12-5.4 12-12S22.6 4 16 4z" fill="#25D366"/><path d="M11.4 10.6c.3-.6.6-.6.9-.6h.7c.2 0 .5 0 .7.6.3.7 1 2.3 1 2.5.1.2.1.4 0 .6-.1.2-.2.3-.4.5l-.5.6c-.2.2-.4.4-.2.7.2.4 1 1.5 2 2.4 1.3 1.2 2.4 1.6 2.8 1.8.3.1.5.1.7-.1.2-.2.8-1 1.1-1.3.2-.3.5-.2.8-.1.3.1 2 1 2.3 1.1.3.2.5.2.6.4.1.2.1 1-.3 1.9-.4.9-2.1 1.8-2.9 1.8-.8.1-1.4.1-4.7-1.9-3.9-2.4-6.4-6.6-6.6-6.9-.2-.3-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.9z" fill="#FFFFFF"/></svg>
-</a>
 
+<!-- ==========================================================================
+     WHATSAPP FLOATING BUTTON
+     ========================================================================== -->
+     <a href="https://wa.me/351916647893?text=Boa%20tarde!%20Gostava%20de%20obter%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20vossos%20servi%C3%A7os" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Falar no WhatsApp" data-i18n-aria="whatsapp.label">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M16 4C9.4 4 4 9.4 4 16c0 2.2.6 4.3 1.7 6.1L4 28l6.1-1.6C11.8 27.4 13.9 28 16 28c6.6 0 12-5.4 12-12S22.6 4 16 4z" fill="#25D366"/><path d="M11.4 10.6c.3-.6.6-.6.9-.6h.7c.2 0 .5 0 .7.6.3.7 1 2.3 1 2.5.1.2.1.4 0 .6-.1.2-.2.3-.4.5l-.5.6c-.2.2-.4.4-.2.7.2.4 1 1.5 2 2.4 1.3 1.2 2.4 1.6 2.8 1.8.3.1.5.1.7-.1.2-.2.8-1 1.1-1.3.2-.3.5-.2.8-.1.3.1 2 1 2.3 1.1.3.2.5.2.6.4.1.2.1 1-.3 1.9-.4.9-2.1 1.8-2.9 1.8-.8.1-1.4.1-4.7-1.9-3.9-2.4-6.4-6.6-6.6-6.9-.2-.3-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.9z" fill="#FFFFFF"/></svg>
+    </a>
+
+
+<!-- Site scripts (menu, language switch, form, before/after sliders) -->
 <script src="script.js"></script>
 
 </body>

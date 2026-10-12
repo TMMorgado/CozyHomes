@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Orçamento — Cozy Homes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --stage: #D9D0BB;
+    --tb: #F2ECDF;
+    --tb-ink: #26221B;
+    --tb-line: rgba(38, 34, 27, 0.18);
+
+    --ink: #26221B;
+    --muted: #6B6354;
+    --copper: #8A7458;
+    --copper-deep: #6B573F;
+    --cream: #F2ECDF;
+    --dark: #2B2820;
+    --paper: #FFFEFB;
+    --line: rgba(38, 34, 27, 0.16);
+
+    --serif: 'Zilla Slab', Georgia, 'Times New Roman', serif;
+    --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --stage: #1E1C17;
+      --tb: #2B2820;
+      --tb-ink: #F2ECDF;
+      --tb-line: rgba(242, 236, 223, 0.2);
+    }
+  }
+  :root[data-theme="dark"] {
+    --stage: #1E1C17;
+    --tb: #2B2820;
+    --tb-ink: #F2ECDF;
+    --tb-line: rgba(242, 236, 223, 0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--stage);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; }
+
+  /* ---------- Toolbar (screen only) ---------- */
+  .toolbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: var(--tb);
+    color: var(--tb-ink);
+    border-bottom: 1px solid var(--tb-line);
+  }
+  .toolbar .hint { margin-left: auto; font-size: 0.82rem; opacity: 0.75; }
+
+  .btn {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 2px;
+    border: 1px solid var(--tb-line);
+    background: transparent;
+    color: var(--tb-ink);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--copper); }
+  .btn-primary { background: var(--copper); border-color: var(--copper); color: #FBF8F2; }
+  .btn-primary:hover { background: #A79374; border-color: #A79374; }
+
+  /* ---------- Stage + sheet ---------- */
+  .stage { overflow-x: auto; padding: 28px 16px 64px; }
+
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 16mm 15mm 14mm;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.22);
+  }
+
+  /* ---------- Editable fields ---------- */
+  .sheet input,
+  .sheet textarea,
+  .sheet select {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 3px 5px;
+    margin: 0;
+    width: 100%;
+  }
+  .sheet textarea { resize: none; overflow: hidden; display: block; line-height: 1.5; }
+  .sheet input:hover, .sheet textarea:hover, .sheet select:hover { background: rgba(138, 116, 88, 0.08); }
+  .sheet input:focus, .sheet textarea:focus, .sheet select:focus {
+    background: #fff;
+    border-color: var(--copper);
+    outline: none;
+  }
+  .sheet ::placeholder { color: #A39A87; }
+  .sheet select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+
+  /* ---------- Header ---------- */
+  .doc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--copper);
+  }
+  .brand img { max-height: 72px; max-width: 240px; width: auto; height: auto; display: block; }
+
+  .doc-meta { text-align: right; min-width: 210px; }
+  .doc-title { font-family: var(--serif); font-size: 2.2rem; font-weight: 600; line-height: 1.1; color: var(--copper-deep); text-align: center; margin: 22px 0 0; }
+  .meta-row { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 6px; text-align: left; }
+  .meta-row label { color: var(--muted); font-size: 0.82rem; text-align: right; }
+
+  /* ---------- Parties ---------- */
+  .parties { display: grid; grid-template-columns: 1fr 1.25fr; gap: 28px; margin-top: 22px; }
+  .label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--copper-deep); margin-bottom: 4px; }
+  .company textarea { font-size: 0.88rem; color: var(--muted); }
+  .field { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 6px; margin-bottom: 2px; }
+  .field > span { font-size: 0.82rem; color: var(--muted); }
+
+  .work { margin-top: 22px; }
+  .work-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; }
+  .work textarea { color: var(--muted); }
+
+  /* ---------- Lines ---------- */
+  .cols, .line {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) 64px 48px 88px 96px 22px;
+    column-gap: 6px;
+    align-items: start;
+  }
+  .cols {
+    margin-top: 24px;
+    padding: 6px 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+  .cols .r, .line .r { text-align: right; }
+  .line .r input { text-align: right; font-variant-numeric: tabular-nums; }
+  .line .ref, .cols .ref { padding-left: 5px; color: var(--muted); font-size: 0.82rem; }
+  .line { padding: 3px 0; border-bottom: 1px solid rgba(38, 34, 27, 0.07); break-inside: avoid; }
+  .line .ref { padding-top: 5px; }
+  .line .tot { text-align: right; padding: 4px 5px 0 0; font-variant-numeric: tabular-nums; }
+  .line .x-cell { text-align: center; }
+
+  .chap { margin-top: 16px; break-inside: auto; }
+  .chap-head {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) 22px;
+    column-gap: 6px;
+    align-items: center;
+    background: var(--cream);
+    padding: 6px 0;
+    break-after: avoid;
+  }
+  .chap-head .ref { padding-left: 5px; font-family: var(--serif); font-weight: 700; color: var(--copper-deep); }
+  .chap-title { font-family: var(--serif) !important; font-size: 1.08rem !important; font-weight: 600 !important; }
+
+  .chap-foot { display: flex; align-items: center; justify-content: flex-end; gap: 14px; padding: 6px 5px 0; }
+  .chap-foot .add { margin-right: auto; }
+  .chap-foot .sub-label { color: var(--muted); font-size: 0.85rem; }
+  .chap-foot .sub-val { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 96px; text-align: right; }
+
+  .x {
+    border: none;
+    background: transparent;
+    color: #9A3B2E;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 2px;
+    opacity: 0.55;
+  }
+  .x:hover { opacity: 1; background: rgba(154, 59, 46, 0.1); }
+  .add {
+    border: 1px dashed var(--copper);
+    background: transparent;
+    color: var(--copper-deep);
+    font: 600 0.82rem var(--sans);
+    padding: 5px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .add:hover { background: rgba(138, 116, 88, 0.1); }
+  .add-chap { margin-top: 16px; }
+
+  /* ---------- Summary ---------- */
+  .summary-wrap { display: flex; justify-content: flex-end; margin-top: 24px; break-inside: avoid; }
+  .summary { width: 330px; }
+  .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--line); gap: 12px; }
+  .sum-row .v { font-variant-numeric: tabular-nums; font-weight: 500; }
+  .sum-row .inline { display: inline-flex; align-items: center; gap: 4px; }
+  .sum-row input.pct { width: 54px; text-align: right; }
+  .sum-row select { width: 150px; }
+  .sum-row.is-zero { }
+  .total-box {
+    margin-top: 10px;
+    background: var(--dark);
+    color: #FBF8F2;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .total-box .t-label { font-size: 0.9rem; opacity: 0.85; }
+  .total-box .t-val { font-family: var(--serif); font-size: 1.9rem; font-weight: 700; color: #D8C7A6; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Terms ---------- */
+  .terms { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; margin-top: 30px; break-inside: avoid; }
+  .terms .full { grid-column: 1 / -1; }
+  .terms textarea { font-size: 0.88rem; color: var(--ink); }
+
+  /* ---------- Acceptance ---------- */
+  .sign { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 44px; break-inside: avoid; }
+  .sign .box { border-top: 1px solid var(--ink); padding-top: 6px; font-size: 0.85rem; color: var(--muted); min-height: 70px; }
+
+  /* ---------- Responsive (editing on a phone) ---------- */
+  @media (max-width: 860px) {
+    .toolbar .hint { margin-left: 0; width: 100%; }
+  }
+
+  /* ---------- Print / PDF ---------- */
+  @page { size: A4; margin: 14mm 15mm; }
+  @media print {
+    :root { padding: 0; }
+    body { background: #fff; font-size: 12.5px; }
+    .toolbar, .noprint { display: none !important; }
+    .stage { overflow: visible; padding: 0; }
+    .sheet { width: 180mm; max-width: 100%; min-height: 0; margin: 0; padding: 0; box-shadow: none; background: #fff; }
+    .sheet input, .sheet textarea, .sheet select { border-color: transparent !important; background: transparent !important; padding-left: 0; padding-right: 0; }
+    .sheet ::placeholder { color: transparent; }
+    .cols, .line { grid-template-columns: 38px minmax(0, 1fr) 64px 48px 88px 96px; }
+    .chap-head { grid-template-columns: 38px minmax(0, 1fr); }
+    .sum-row.is-zero { display: none; }
+    .total-box { background: #fff !important; color: var(--ink) !important; border: 2px solid var(--dark); }
+    .total-box .t-label { opacity: 1; }
+    .total-box .t-val { color: var(--copper-deep); }
+    .chap-head { background: #fff !important; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .doc-head { border-bottom-color: var(--copper); }
+    .doc-head, .chap-head, .total-box, .sum-row {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn btn-primary" id="btnPrint" type="button">Guardar como PDF</button>
+  <button class="btn" id="btnBlank" type="button">Orçamento em branco</button>
+  <button class="btn" id="btnSample" type="button">Repor exemplo</button>
+  <span class="hint">Clique em qualquer campo para editar. Os dados ficam guardados neste navegador.</span>
+</div>
+
+<div class="stage">
+  <main class="sheet" id="sheet"></main>
+</div>
+
+<script>
+(function () {
+  var KEY = 'cozy-orcamento-v1';
+  var LOGO_SRC = '../assets/images/cozy-homes-logo.png';
+  var sheet = document.getElementById('sheet');
+
+  /* ---------- Helpers ---------- */
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function num(v) {
+    var n = parseFloat(String(v == null ? '' : v).replace(/\s/g, '').replace(',', '.'));
+    return isFinite(n) ? n : 0;
+  }
+  var money = new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' });
+  function fmt(n) { return money.format(n); }
+  function today() { return new Date().toISOString().slice(0, 10); }
+
+  /* ---------- Default content ---------- */
+  var DEFAULT_COMPANY = 'Cozy Homes\nNIF 000 000 000\n+351 916 647 893\ncozy.homespt@gmail.com\nPorto e arredores';
+  var DEFAULT_TERMS = {
+    payment: '30% na adjudicação, 40% a meio da obra e 30% na conclusão dos trabalhos.',
+    time: 'A definir em função do âmbito da obra, a contar da data de início dos trabalhos.',
+    included: 'Mão de obra, materiais indicados nesta proposta e remoção de entulho.',
+    excluded: 'Licenças e taxas camarárias, mobiliário e equipamentos não especificados, e trabalhos não descritos neste orçamento.',
+    warranty: 'Garantia sobre a mão de obra e sobre os materiais aplicados, nos termos acordados com o cliente.'
+  };
+
+  function sample() {
+    return {
+      number: new Date().getFullYear() + '-001',
+      date: today(),
+      validity: '30 dias',
+      company: DEFAULT_COMPANY,
+      client: { name: 'Maria Silva', address: 'Rua das Flores, 123, Vila Nova de Gaia', contact: '912 345 678' },
+      workTitle: 'Remodelação de casa de banho',
+      description: 'Remodelação completa da casa de banho principal, com substituição de revestimentos, loiças e acessórios. Valores de exemplo: substitua pelos seus.',
+      chapters: [
+        { title: 'Demolições e preparação', lines: [
+          { desc: 'Remoção de revestimentos e loiças sanitárias existentes', qty: '1', unit: 'vg', price: '450' },
+          { desc: 'Remoção de entulho e transporte a vazadouro', qty: '1', unit: 'vg', price: '180' }
+        ]},
+        { title: 'Canalização e eletricidade', lines: [
+          { desc: 'Rede de abastecimento de águas e esgotos, com tubagem nova', qty: '1', unit: 'vg', price: '620' },
+          { desc: 'Pontos de luz e tomadas, incluindo aparelhagem', qty: '6', unit: 'un', price: '38' }
+        ]},
+        { title: 'Revestimentos e acabamentos', lines: [
+          { desc: 'Impermeabilização de pavimento e zona de duche', qty: '6,5', unit: 'm²', price: '18' },
+          { desc: 'Fornecimento e assentamento de cerâmico em pavimento', qty: '6,5', unit: 'm²', price: '42' },
+          { desc: 'Fornecimento e assentamento de cerâmico em paredes', qty: '22', unit: 'm²', price: '38' },
+          { desc: 'Pintura de tetos com tinta antimofo', qty: '6,5', unit: 'm²', price: '9' }
+        ]}
+      ],
+      discount: '0',
+      vat: '23',
+      terms: JSON.parse(JSON.stringify(DEFAULT_TERMS))
+    };
+  }
+
+  function blank(prev) {
+    var b = sample();
+    b.number = new Date().getFullYear() + '-001';
+    b.company = prev ? prev.company : DEFAULT_COMPANY;
+    b.terms = prev ? prev.terms : b.terms;
+    b.client = { name: '', address: '', contact: '' };
+    b.workTitle = '';
+    b.description = '';
+    b.chapters = [{ title: '', lines: [{ desc: '', qty: '', unit: '', price: '' }] }];
+    return b;
+  }
+
+  /* ---------- State + storage ---------- */
+  var state = load() || sample();
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
+  }
+  function setPath(path, value) {
+    var parts = path.split('.');
+    var o = state;
+    for (var i = 0; i < parts.length - 1; i++) o = o[parts[i]];
+    o[parts[parts.length - 1]] = value;
+  }
+
+  /* ---------- Render ---------- */
+  function render() {
+    var s = state;
+    var html = '';
+
+    html += '<header class="doc-head">' +
+      '<div class="brand"><img src="' + LOGO_SRC + '" alt="Cozy Homes"></div>' +
+      '<div class="doc-meta">' +
+        '<div class="meta-row"><label for="f-num">Nº</label><input id="f-num" data-path="number" value="' + esc(s.number) + '"></div>' +
+        '<div class="meta-row"><label for="f-date">Data</label><input id="f-date" type="date" data-path="date" value="' + esc(s.date) + '"></div>' +
+        '<div class="meta-row"><label for="f-val">Validade</label><input id="f-val" data-path="validity" value="' + esc(s.validity) + '"></div>' +
+      '</div>' +
+    '</header>' +
+    '<h1 class="doc-title">Orçamento</h1>';
+
+    html += '<section class="parties">' +
+      '<div class="company"><span class="label">De</span>' +
+        '<textarea data-path="company" rows="5" aria-label="Dados da empresa">' + esc(s.company) + '</textarea></div>' +
+      '<div class="client"><span class="label">Para</span>' +
+        '<div class="field"><span>Cliente</span><input data-path="client.name" placeholder="Nome do cliente" value="' + esc(s.client.name) + '"></div>' +
+        '<div class="field"><span>Morada da obra</span><input data-path="client.address" placeholder="Rua, localidade" value="' + esc(s.client.address) + '"></div>' +
+        '<div class="field"><span>Contacto</span><input data-path="client.contact" placeholder="Telefone ou email" value="' + esc(s.client.contact) + '"></div>' +
+      '</div>' +
+    '</section>';
+
+    html += '<section class="work">' +
+      '<input class="work-title" data-path="workTitle" placeholder="Título da obra" aria-label="Título da obra" value="' + esc(s.workTitle) + '">' +
+      '<textarea data-path="description" rows="2" placeholder="Breve descrição do trabalho a realizar" aria-label="Descrição da obra">' + esc(s.description) + '</textarea>' +
+    '</section>';
+
+    html += '<div class="cols"><span class="ref">Ref.</span><span>Descrição</span><span class="r">Qtd.</span><span>Un.</span><span class="r">Preço un.</span><span class="r">Total</span><span class="noprint"></span></div>';
+
+    s.chapters.forEach(function (c, ci) {
+      html += '<section class="chap">' +
+        '<div class="chap-head"><span class="ref">' + (ci + 1) + '</span>' +
+        '<input class="chap-title" data-path="chapters.' + ci + '.title" placeholder="Nome do capítulo" aria-label="Nome do capítulo" value="' + esc(c.title) + '">' +
+        '<button type="button" class="x noprint" data-act="del-chap" data-c="' + ci + '" aria-label="Remover capítulo" title="Remover capítulo">×</button></div>';
+
+      c.lines.forEach(function (l, li) {
+        var p = 'chapters.' + ci + '.lines.' + li + '.';
+        html += '<div class="line">' +
+          '<span class="ref">' + (ci + 1) + '.' + (li + 1) + '</span>' +
+          '<textarea rows="1" data-path="' + p + 'desc" placeholder="Descrição do trabalho" aria-label="Descrição">' + esc(l.desc) + '</textarea>' +
+          '<span class="r"><input inputmode="decimal" data-path="' + p + 'qty" data-calc="1" aria-label="Quantidade" value="' + esc(l.qty) + '"></span>' +
+          '<span><input data-path="' + p + 'unit" placeholder="m²" aria-label="Unidade" value="' + esc(l.unit) + '"></span>' +
+          '<span class="r"><input inputmode="decimal" data-path="' + p + 'price" data-calc="1" aria-label="Preço unitário" value="' + esc(l.price) + '"></span>' +
+          '<span class="tot" data-line="' + ci + '-' + li + '"></span>' +
+          '<span class="x-cell noprint"><button type="button" class="x" data-act="del-line" data-c="' + ci + '" data-l="' + li + '" aria-label="Remover linha" title="Remover linha">×</button></span>' +
+        '</div>';
+      });
+
+      html += '<div class="chap-foot">' +
+        '<button type="button" class="add noprint" data-act="add-line" data-c="' + ci + '">+ Adicionar linha</button>' +
+        '<span class="sub-label">Subtotal do capítulo ' + (ci + 1) + '</span>' +
+        '<span class="sub-val" data-chsub="' + ci + '"></span>' +
+      '</div></section>';
+    });
+
+    html += '<button type="button" class="add add-chap noprint" data-act="add-chap">+ Adicionar capítulo</button>';
+
+    html += '<div class="summary-wrap"><div class="summary">' +
+      '<div class="sum-row"><span>Subtotal</span><span class="v" id="sSub"></span></div>' +
+      '<div class="sum-row" id="rowDisc"><span class="inline">Desconto <input class="pct" inputmode="decimal" data-path="discount" data-calc="1" aria-label="Desconto em percentagem" value="' + esc(s.discount) + '"> %</span><span class="v" id="sDisc"></span></div>' +
+      '<div class="sum-row"><span>Total sem IVA</span><span class="v" id="sBase"></span></div>' +
+      '<div class="sum-row"><span class="inline">IVA <select data-path="vat" data-calc="1" aria-label="Taxa de IVA">' +
+        '<option value="23"' + (s.vat === '23' ? ' selected' : '') + '>23 %</option>' +
+        '<option value="6"' + (s.vat === '6' ? ' selected' : '') + '>6 %</option>' +
+        '<option value="0"' + (s.vat === '0' ? ' selected' : '') + '>0 % (isento ou autoliquidação)</option>' +
+      '</select></span><span class="v" id="sVat"></span></div>' +
+      '<div class="total-box"><span class="t-label">Total a pagar</span><span class="t-val" id="sTotal"></span></div>' +
+    '</div></div>';
+
+    html += '<section class="terms">' +
+      '<div><span class="label">Condições de pagamento</span><textarea data-path="terms.payment" rows="2">' + esc(s.terms.payment) + '</textarea></div>' +
+      '<div><span class="label">Prazo de execução</span><textarea data-path="terms.time" rows="2">' + esc(s.terms.time) + '</textarea></div>' +
+      '<div><span class="label">Incluído</span><textarea data-path="terms.included" rows="2">' + esc(s.terms.included) + '</textarea></div>' +
+      '<div><span class="label">Não incluído</span><textarea data-path="terms.excluded" rows="2">' + esc(s.terms.excluded) + '</textarea></div>' +
+      '<div class="full"><span class="label">Garantia</span><textarea data-path="terms.warranty" rows="2">' + esc(s.terms.warranty) + '</textarea></div>' +
+    '</section>';
+
+    html += '<section class="sign">' +
+      '<div class="box">Pela Cozy Homes<br>Data: ____ / ____ / ________</div>' +
+      '<div class="box">O cliente: aceito este orçamento<br>Data: ____ / ____ / ________</div>' +
+    '</section>';
+
+    sheet.innerHTML = html;
+    autosizeAll();
+    updateTotals();
+  }
+
+  /* ---------- Totals ---------- */
+  function setText(sel, txt) {
+    var el = sheet.querySelector(sel);
+    if (el) el.textContent = txt;
+  }
+
+  function updateTotals() {
+    var sub = 0;
+    state.chapters.forEach(function (c, ci) {
+      var cs = 0;
+      c.lines.forEach(function (l, li) {
+        var t = Math.round(num(l.qty) * num(l.price) * 100) / 100;
+        cs += t;
+        setText('[data-line="' + ci + '-' + li + '"]', fmt(t));
+      });
+      setText('[data-chsub="' + ci + '"]', fmt(cs));
+      sub += cs;
+    });
+    var disc = Math.round(sub * num(state.discount)) / 100;
+    var base = sub - disc;
+    var vat = Math.round(base * num(state.vat)) / 100;
+    var total = base + vat;
+
+    setText('#sSub', fmt(sub));
+    setText('#sDisc', disc ? '− ' + fmt(disc) : fmt(0));
+    setText('#sBase', fmt(base));
+    setText('#sVat', fmt(vat));
+    setText('#sTotal', fmt(total));
+
+    var row = document.getElementById('rowDisc');
+    if (row) row.classList.toggle('is-zero', num(state.discount) === 0);
+  }
+
+  /* ---------- Textarea auto-height ---------- */
+  function autosize(ta) {
+    ta.style.height = 'auto';
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function autosizeAll() {
+    sheet.querySelectorAll('textarea').forEach(autosize);
+  }
+
+  /* ---------- Events ---------- */
+  function onInput(e) {
+    var t = e.target;
+    var path = t.getAttribute && t.getAttribute('data-path');
+    if (!path) return;
+    setPath(path, t.value);
+    if (t.tagName === 'TEXTAREA') autosize(t);
+    if (t.hasAttribute('data-calc')) updateTotals();
+    save();
+  }
+  sheet.addEventListener('input', onInput);
+  sheet.addEventListener('change', onInput);
+
+  sheet.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-act]');
+    if (!btn) return;
+    var act = btn.getAttribute('data-act');
+    var c = parseInt(btn.getAttribute('data-c'), 10);
+    var l = parseInt(btn.getAttribute('data-l'), 10);
+
+    if (act === 'add-line') state.chapters[c].lines.push({ desc: '', qty: '', unit: '', price: '' });
+    else if (act === 'del-line') {
+      state.chapters[c].lines.splice(l, 1);
+      if (!state.chapters[c].lines.length) state.chapters[c].lines.push({ desc: '', qty: '', unit: '', price: '' });
+    }
+    else if (act === 'add-chap') state.chapters.push({ title: '', lines: [{ desc: '', qty: '', unit: '', price: '' }] });
+    else if (act === 'del-chap') {
+      state.chapters.splice(c, 1);
+      if (!state.chapters.length) state.chapters.push({ title: '', lines: [{ desc: '', qty: '', unit: '', price: '' }] });
+    }
+    save();
+    render();
+  });
+
+  /* ---------- Toolbar ---------- */
+  var oldTitle = document.title;
+
+  function printTitle() {
+    var n = state.number ? ' ' + state.number : '';
+    var cl = state.client.name ? ' - ' + state.client.name : '';
+    document.title = 'Orçamento' + n + cl + ' - Cozy Homes';
+  }
+  window.addEventListener('beforeprint', function () { autosizeAll(); printTitle(); });
+  window.addEventListener('afterprint', function () { document.title = oldTitle; });
+
+  document.getElementById('btnPrint').addEventListener('click', function () {
+    try { window.print(); }
+    catch (e) { alert('Use Ctrl+P (ou Cmd+P) e escolha "Guardar como PDF".'); }
+  });
+
+  document.getElementById('btnBlank').addEventListener('click', function () {
+    if (confirm('Começar um orçamento em branco? O orçamento atual será substituído.')) {
+      state = blank(state);
+      save();
+      render();
+    }
+  });
+
+  document.getElementById('btnSample').addEventListener('click', function () {
+    if (confirm('Repor o orçamento de exemplo? O orçamento atual será substituído.')) {
+      state = sample();
+      save();
+      render();
+    }
+  });
+
+  window.addEventListener('load', autosizeAll);
+  window.addEventListener('resize', autosizeAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(autosizeAll);
+
+  render();
+})();
+</script>
+</body>
+</html>
